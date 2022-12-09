@@ -1,0 +1,36 @@
+name: oai-5g-amf
+
+summary: OpenAirInterface 5G Core Network amf
+
+description: |
+  OPENAIR-CN-5G is an implementation of the 3GPP specifications for the 5G Core Network. This 
+  charms deploys the amf component of the 5G Core Network.
+
+containers:
+  amf:
+    resource: amf-image
+    mounts:
+      - storage: config
+        location: /openair-amf/etc
+
+storage:
+  config:
+    type: filesystem
+    description: amf Config directory
+    minimum-size: 1G
+
+resources:
+  amf-image:
+    type: oci-image
+    description: OCI image for amf
+    upstream-source: docker.io/oaisoftwarealliance/oai-amf:v1.4.0
+
+requires:
+  fiveg-nrf:
+    interface: fiveg-nrf
+  fiveg-udm:
+    interface: fiveg-udm
+  fiveg-ausf:
+    interface: fiveg-ausf
+  database:
+    interface: mysql_client
