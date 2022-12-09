@@ -1,0 +1,139 @@
+options:
+  amfInterfaceNameForN11:
+    type: string
+    description: |
+      The interface name of the AMF interface for N11.
+    default: eth0
+    required: true
+  amfInterfaceNameForNGAP:
+    type: string
+    description: |
+      The interface name of the AMF interface for NGAP.
+    default: eth0
+    required: true
+  mcc:
+    type: string
+    description: |
+      The Mobile Country Code (MCC) of the AMF.
+    default: "208"
+    required: true
+  mnc:
+    type: string
+    description: |
+      The Mobile Network Code (MNC) of the AMF.
+    default: "99"
+    required: true
+  region_id:
+    type: string
+    description: |
+      The region ID of the AMF.
+    default: "128"
+    required: true
+  amf_set_id:
+    type: string
+    description: |
+      The AMF set ID of the AMF.
+    default: "1"
+    required: true
+  served_guami_mcc_0:
+    type: string
+    description: |
+      The Mobile Country Code (MCC) of the AMF.
+    default: "208"
+    required: true
+  served_guami_mnc_0:
+    type: string
+    description: |
+      The Mobile Network Code (MNC) of the AMF.
+    default: "99"
+    required: true
+  served_guami_region_id_0:
+    type: string
+    description: |
+      The region ID of the AMF.
+    default: "128"
+    required: true
+  served_guami_amf_set_id_0:
+    type: string
+    description: |
+      The AMF set ID of the AMF.
+    default: "1"
+    required: true
+  served_guami_mcc_1:
+    type: string
+    description: |
+      The Mobile Country Code (MCC) of the AMF.
+    default: "460"
+    required: true
+  served_guami_mnc_1:
+    type: string
+    description: |
+      The Mobile Network Code (MNC) of the AMF.
+    default: "11"
+    required: true
+  served_guami_region_id_1:
+    type: string
+    description: |
+      The region ID of the AMF.
+    default: "10"
+    required: true
+  served_guami_amf_set_id_1:
+    type: string
+    description: |
+      The AMF set ID of the AMF.
+    default: "1"
+    required: true
+  plmn_support_mcc:
+    type: string
+    description: |
+      The Mobile Country Code (MCC) of the AMF.
+    default: "208"
+    required: true
+  plmn_support_mnc:
+    type: string
+    description: |
+      The Mobile Network Code (MNC) of the AMF.
+    default: "99"
+    required: true
+  plmn_support_tac:
+    type: string
+    description: |
+      The Tracking Area Code (TAC) of the AMF.
+    default: "0x0001"
+    required: true
+  sd_0:
+    type: string
+    description: |
+      The Service Discovery (SD) of the AMF.
+    default: "1"
+    required: true
+  sst_0:
+    type: string
+    description: |
+      The Service Selection (SS) of the AMF.
+    default: "1"
+    required: true
+  sst_1:
+    type: string
+    description: |
+      The Service Selection (SS) of the AMF.
+    default: "111"
+    required: true
+  sst_2:
+    type: string
+    description: |
+      The Service Selection (SS) of the AMF.
+    default: "2"
+    required: true
+  sd_1:
+    type: string
+    description: |
+      The Service Discovery (SD) of the AMF.
+    default: "124"
+    required: true
+  sd_2:
+    type: string
+    description: |
+      The Service Discovery (SD) of the AMF.
+    default: "2"
+    required: true
