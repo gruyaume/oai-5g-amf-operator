@@ -201,10 +201,10 @@ class TestCharm(unittest.TestCase):
             "    };\n\n"
             "    NRF :\n"
             "    {\n"
-            '      IPV4_ADDRESS = "1.2.3.4";\n'
-            "      PORT         = 81;            # Default: 80\n"
-            '      API_VERSION  = "v1";\n'
-            '      FQDN         = "nrf.example.com"\n'
+            f'      IPV4_ADDRESS = "{nrf_ipv4_address}";\n'
+            f"      PORT         = {nrf_port};            # Default: 80\n"
+            f'      API_VERSION  = "{nrf_api_version}";\n'
+            f'      FQDN         = "{nrf_fqdn}"\n'
             "    };\n\n"
             "    AUSF :\n"
             "    {\n"
