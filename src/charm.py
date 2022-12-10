@@ -528,7 +528,7 @@ class Oai5GAMFOperatorCharm(CharmBase):
         relation = self.model.get_relation(relation_name="database")
         if not relation:
             raise ValueError("Database relation is not created")
-        return relation_data[relation.id]["endpoints"].split(",")[0]
+        return relation_data[relation.id]["endpoints"].split(",")[0].split(":")[0]
 
     @property
     def _database_relation_user(self) -> str:
