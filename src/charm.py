@@ -36,7 +36,7 @@ class Oai5GAMFOperatorCharm(CharmBase):
     def __init__(self, *args):
         """Observes juju events."""
         super().__init__(*args)
-        self._container_name = "amf"
+        self._container_name = self._service_name = "amf"
         self._container = self.unit.get_container(self._container_name)
         self.service_patcher = KubernetesServicePatch(
             charm=self,
@@ -85,6 +85,10 @@ class Oai5GAMFOperatorCharm(CharmBase):
         """
         if not self.unit.is_leader():
             return
+        if not self._amf_service_started:
+            logger.info("AMF service not started yet, deferring event")
+            event.defer()
+            return
         self.amf_provides.set_amf_information(
             amf_ipv4_address="127.0.0.1",
             amf_fqdn=f"{self.model.app.name}.{self.model.name}.svc.cluster.local",
@@ -92,6 +96,14 @@ class Oai5GAMFOperatorCharm(CharmBase):
             amf_api_version=self._config_n11_amf_api_version,
             relation_id=event.relation.id,
         )
+
+    @property
+    def _amf_service_started(self) -> bool:
+        if not self._container.can_connect():
+            return False
+        if not self._container.get_service(self._service_name).is_running():
+            return False
+        return True
 
     def _on_config_changed(self, event: ConfigChangedEvent) -> None:
         """Triggered on any change in configuration.
@@ -541,7 +553,7 @@ class Oai5GAMFOperatorCharm(CharmBase):
             "summary": "amf layer",
             "description": "pebble config layer for amf",
             "services": {
-                "amf": {
+                self._service_name: {
                     "override": "replace",
                     "summary": "amf",
                     "command": f"/openair-amf/bin/oai_amf -c {BASE_CONFIG_PATH}/{CONFIG_FILE_NAME} -o",  # noqa: E501
