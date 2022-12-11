@@ -192,7 +192,7 @@ class Oai5GAMFOperatorCharm(CharmBase):
         """
         self._container.add_layer("amf", self._pebble_layer, combine=True)
         self._container.replan()
-        self.unit.status = ActiveStatus()
+        self._container.restart(self._service_name)
 
     @property
     def _database_relation_created(self) -> bool:
