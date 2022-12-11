@@ -5,6 +5,13 @@ import unittest
 from unittest.mock import patch
 
 import ops.testing
+from lightkube.models.core_v1 import (
+    LoadBalancerIngress,
+    LoadBalancerStatus,
+    Service,
+    ServiceSpec,
+)
+from lightkube.models.core_v1 import ServiceStatus as K8sServiceStatus
 from ops.model import ActiveStatus
 from ops.pebble import ServiceInfo, ServiceStartup, ServiceStatus
 from ops.testing import Harness
@@ -13,11 +20,12 @@ from charm import Oai5GAMFOperatorCharm
 
 
 class TestCharm(unittest.TestCase):
+    @patch("lightkube.core.client.GenericSyncClient")
     @patch(
         "charm.KubernetesServicePatch",
-        lambda charm, ports: None,
+        lambda charm, ports, service_type: None,
     )
-    def setUp(self):
+    def setUp(self, patch_lightkube_client):
         ops.testing.SIMULATE_CAN_CONNECT = True
         self.model_name = "whatever"
         self.addCleanup(setattr, ops.testing, "SIMULATE_CAN_CONNECT", False)
@@ -289,10 +297,18 @@ class TestCharm(unittest.TestCase):
         self.assertTrue(service.is_running())
         self.assertEqual(self.harness.model.unit.status, ActiveStatus())
 
+    @patch("lightkube.Client.get")
     @patch("ops.model.Container.get_service")
     def test_given_unit_is_leader_when_amf_relation_joined_then_amf_relation_data_is_set(
-        self, patch_get_service
+        self, patch_get_service, patch_k8s_get
     ):
+        load_balancer_ip = "1.2.3.4"
+        patch_k8s_get.return_value = Service(
+            spec=ServiceSpec(type="LoadBalancer"),
+            status=K8sServiceStatus(
+                loadBalancer=LoadBalancerStatus(ingress=[LoadBalancerIngress(ip=load_balancer_ip)])
+            ),
+        )
         self.harness.set_leader(True)
         self.harness.set_can_connect(container="amf", val=True)
         patch_get_service.return_value = ServiceInfo(
@@ -301,14 +317,43 @@ class TestCharm(unittest.TestCase):
             startup=ServiceStartup.ENABLED,
         )
 
-        relation_id = self.harness.add_relation(relation_name="fiveg-amf", remote_app="amf")
-        self.harness.add_relation_unit(relation_id=relation_id, remote_unit_name="amf/0")
+        relation_id = self.harness.add_relation(relation_name="fiveg-amf", remote_app="smf")
+        self.harness.add_relation_unit(relation_id=relation_id, remote_unit_name="smf/0")
 
         relation_data = self.harness.get_relation_data(
             relation_id=relation_id, app_or_unit=self.harness.model.app.name
         )
 
-        assert relation_data["amf_ipv4_address"] == "127.0.0.1"
+        assert relation_data["amf_ipv4_address"] == load_balancer_ip
         assert relation_data["amf_fqdn"] == f"oai-5g-amf.{self.model_name}.svc.cluster.local"
         assert relation_data["amf_port"] == "80"
         assert relation_data["amf_api_version"] == "v1"
+
+    @patch("lightkube.Client.get")
+    @patch("ops.model.Container.get_service")
+    def test_given_unit_is_leader_when_n2_relation_joined_then_amf_relation_data_is_set(
+        self, patch_get_service, patch_k8s_get
+    ):
+        load_balancer_ip = "5.6.7.8"
+        patch_k8s_get.return_value = Service(
+            spec=ServiceSpec(type="LoadBalancer"),
+            status=K8sServiceStatus(
+                loadBalancer=LoadBalancerStatus(ingress=[LoadBalancerIngress(ip=load_balancer_ip)])
+            ),
+        )
+        self.harness.set_leader(True)
+        self.harness.set_can_connect(container="amf", val=True)
+        patch_get_service.return_value = ServiceInfo(
+            name="amf",
+            current=ServiceStatus.ACTIVE,
+            startup=ServiceStartup.ENABLED,
+        )
+
+        relation_id = self.harness.add_relation(relation_name="fiveg-n2", remote_app="cu")
+        self.harness.add_relation_unit(relation_id=relation_id, remote_unit_name="cu/0")
+
+        relation_data = self.harness.get_relation_data(
+            relation_id=relation_id, app_or_unit=self.harness.model.app.name
+        )
+
+        assert relation_data["amf_address"] == load_balancer_ip

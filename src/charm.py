@@ -11,6 +11,7 @@ from charms.data_platform_libs.v0.database_requires import (  # type: ignore[imp
     DatabaseRequires,
 )
 from charms.oai_5g_amf.v0.fiveg_amf import FiveGAMFProvides  # type: ignore[import]
+from charms.oai_5g_amf.v0.fiveg_n2 import FiveGN2Provides  # type: ignore[import]
 from charms.oai_5g_ausf.v0.fiveg_ausf import FiveGAUSFRequires  # type: ignore[import]
 from charms.oai_5g_nrf.v0.fiveg_nrf import FiveGNRFRequires  # type: ignore[import]
 from charms.oai_5g_udm.v0.oai_5g_udm import FiveGUDMRequires  # type: ignore[import]
@@ -22,6 +23,8 @@ from jinja2 import Environment, FileSystemLoader
 from ops.charm import CharmBase, ConfigChangedEvent
 from ops.main import main
 from ops.model import ActiveStatus, BlockedStatus, WaitingStatus
+
+from kubernetes import Kubernetes
 
 logger = logging.getLogger(__name__)
 
@@ -40,6 +43,7 @@ class Oai5GAMFOperatorCharm(CharmBase):
         self._container = self.unit.get_container(self._container_name)
         self.service_patcher = KubernetesServicePatch(
             charm=self,
+            service_type="LoadBalancer",
             ports=[
                 ServicePort(
                     name="oai-amf",
@@ -61,7 +65,9 @@ class Oai5GAMFOperatorCharm(CharmBase):
                 ),
             ],
         )
+        self.kubernetes = Kubernetes(namespace=self.model.name)
         self.amf_provides = FiveGAMFProvides(self, "fiveg-amf")
+        self.n2_provides = FiveGN2Provides(self, "fiveg-n2")
         self.nrf_requires = FiveGNRFRequires(self, "fiveg-nrf")
         self.udm_requires = FiveGUDMRequires(self, "fiveg-udm")
         self.ausf_requires = FiveGAUSFRequires(self, "fiveg-ausf")
@@ -76,6 +82,7 @@ class Oai5GAMFOperatorCharm(CharmBase):
         self.framework.observe(
             self.on.fiveg_amf_relation_joined, self._on_fiveg_amf_relation_joined
         )
+        self.framework.observe(self.on.fiveg_n2_relation_joined, self._on_fiveg_n2_relation_joined)
 
     def _on_fiveg_amf_relation_joined(self, event) -> None:
         """Triggered when a relation is joined.
@@ -89,12 +96,33 @@ class Oai5GAMFOperatorCharm(CharmBase):
             logger.info("AMF service not started yet, deferring event")
             event.defer()
             return
+        amf_hostname, amf_ipv4_address = self.kubernetes.get_service_load_balancer_address(
+            name=self.app.name
+        )
+        if not amf_ipv4_address:
+            raise Exception("Loadbalancer doesn't have an IP address")
         self.amf_provides.set_amf_information(
-            amf_ipv4_address="127.0.0.1",
+            amf_ipv4_address=amf_ipv4_address,
             amf_fqdn=f"{self.model.app.name}.{self.model.name}.svc.cluster.local",
             amf_port=self._config_n11_amf_interface_port,
             amf_api_version=self._config_n11_amf_api_version,
             relation_id=event.relation.id,
+        )
+
+    def _on_fiveg_n2_relation_joined(self, event) -> None:
+        if not self.unit.is_leader():
+            return
+        if not self._amf_service_started:
+            logger.info("AMF service not started yet, deferring event")
+            event.defer()
+            return
+        amf_hostname, amf_ipv4_address = self.kubernetes.get_service_load_balancer_address(
+            name=self.app.name
+        )
+        if not amf_ipv4_address:
+            raise Exception("Loadbalancer doesn't have an IP address")
+        self.n2_provides.set_amf_information(
+            amf_address=amf_ipv4_address, relation_id=event.relation.id
         )
 
     @property
