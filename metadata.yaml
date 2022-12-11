@@ -38,3 +38,5 @@ requires:
 provides:
   fiveg-amf:
     interface: fiveg-amf
+  fiveg-n2:
+    interface: fiveg-n2
