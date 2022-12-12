@@ -37,21 +37,21 @@ AMF =
 
   GUAMI:
   {
-    MCC = "{{ mcc }}"; MNC = "{{ mnc }}"; RegionID = "{{ region_id }}"; AMFSetID = "{{ amf_set_id }}"; AMFPointer = "1"
+    MCC = "{{ guami_mcc }}"; MNC = "{{ guami_mnc }}"; RegionID = "{{ guami_region_id }}"; AMFSetID = "{{ guami_amf_set_id }}"; AMFPointer = "1"
   }
 
   SERVED_GUAMI_LIST = (
-    {MCC = "{{ served_guami_mcc_0 }}"; MNC = "{{ served_guami_mnc_0 }}"; RegionID = "{{ served_guami_region_id_0 }}"; AMFSetID = "{{ served_guami_amf_set_id_0 }}"; AMFPointer = "0"}, #48bits <MCC><MNC><RegionID><AMFSetID><AMFPointer>
-    {MCC = "{{ served_guami_mcc_1 }}"; MNC = "{{ served_guami_mnc_1 }}"; RegionID = "{{ served_guami_region_id_1 }}"; AMFSetID = "{{ served_guami_amf_set_id_1 }}"; AMFPointer = "1"}  #48bits <MCC><MNC><RegionID><AMFSetID><AMFPointer>
+    {MCC = "{{ served_guami_0_mcc }}"; MNC = "{{ served_guami_0_mnc }}"; RegionID = "{{ served_guami_0_region_id }}"; AMFSetID = "{{ served_guami_0_amf_set_id }}"; AMFPointer = "0"}, #48bits <MCC><MNC><RegionID><AMFSetID><AMFPointer>
+    {MCC = "{{ served_guami_1_mcc }}"; MNC = "{{ served_guami_1_mnc }}"; RegionID = "{{ served_guami_1_region_id }}"; AMFSetID = "{{ served_guami_1_amf_set_id }}"; AMFPointer = "1"}  #48bits <MCC><MNC><RegionID><AMFSetID><AMFPointer>
   );
 
   PLMN_SUPPORT_LIST = (
   {
-    MCC = "{{ plmn_support_mcc }}"; MNC = "{{ plmn_support_mnc }}"; TAC = {{ plmn_support_tac }};
+    MCC = "{{ plmn_0_support_mcc }}"; MNC = "{{ plmn_0_support_mnc }}"; TAC = {{ plmn_0_support_tac }};
     SLICE_SUPPORT_LIST = (
-      {SST = "{{ sst_0 }}"; SD = "{{ sd_0 }}"},
-      {SST = "{{ sst_1 }}"; SD = "{{ sd_1 }}"},
-      {SST = "{{ sst_2 }}"; SD = "{{ sd_2 }}"}
+      {SST = "{{ plmn_0_slice_0_sst }}"; SD = "{{ plmn_0_slice_0_sd }}"},
+      {SST = "{{ plmn_0_slice_1_sst }}"; SD = "{{ plmn_0_slice_1_sd }}"},
+      {SST = "{{ plmn_0_slice_2_sst }}"; SD = "{{ plmn_0_slice_2_sd }}"}
      )
   }
   );
@@ -77,8 +77,8 @@ AMF =
       HTTP2_PORT     = {{ n11_amf_interface_http2_port }};
 
       SMF_INSTANCES_POOL = (
-        {SMF_INSTANCE_ID = {{ smf_instance_id_0 }}; IPV4_ADDRESS = "{{ smf_ipv4_address_0 }}"; PORT = "{{ smf_port_0 }}"; HTTP2_PORT = {{ smf_http2_port_0 }}, VERSION = "{{ smf_api_version_0 }}"; FQDN = "{{ smf_fqdn_0 }}", SELECTED = "true"},
-        {SMF_INSTANCE_ID = {{ smf_instance_id_1 }}; IPV4_ADDRESS = "{{ smf_ipv4_address_1 }}"; PORT = "{{ smf_port_1 }}"; HTTP2_PORT = {{ smf_http2_port_1 }}, VERSION = "{{ smf_api_version_1 }}"; FQDN = "{{ smf_fqdn_1 }}", SELECTED = "false"}
+        {SMF_INSTANCE_ID = {{ smf_0_instance_id }}; IPV4_ADDRESS = "{{ smf_0_ipv4_address }}"; PORT = "{{ smf_0_port }}"; HTTP2_PORT = {{ smf_0_http2_port }}, VERSION = "{{ smf_0_api_version }}"; FQDN = "{{ smf_0_fqdn }}", SELECTED = "true"},
+        {SMF_INSTANCE_ID = {{ smf_1_instance_id }}; IPV4_ADDRESS = "{{ smf_1_ipv4_address }}"; PORT = "{{ smf_1_port }}"; HTTP2_PORT = {{ smf_1_http2_port }}, VERSION = "{{ smf_1_api_version }}"; FQDN = "{{ smf_1_fqdn }}", SELECTED = "false"}
       );
     };
 

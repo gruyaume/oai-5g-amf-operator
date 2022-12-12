@@ -238,45 +238,45 @@ class Oai5GAMFOperatorCharm(CharmBase):
             instance=self._config_instance,
             pid_directory=self._config_pid_directory,
             amf_name=self._config_amf_name,
-            mcc=self._config_mcc,
-            mnc=self._config_mnc,
-            region_id=self._config_region_id,
-            amf_set_id=self._config_amf_set_id,
-            served_guami_mcc_0=self._config_served_guami_mcc_0,
-            served_guami_mnc_0=self._config_served_guami_mnc_0,
-            served_guami_region_id_0=self._config_served_guami_region_id_0,
-            served_guami_amf_set_id_0=self._config_served_guami_amf_set_id_0,
-            served_guami_mcc_1=self._config_served_guami_mcc_1,
-            served_guami_mnc_1=self._config_served_guami_mnc_1,
-            served_guami_region_id_1=self._config_served_guami_region_id_1,
-            served_guami_amf_set_id_1=self._config_served_guami_amf_set_id_1,
-            plmn_support_mcc=self._config_plmn_support_mcc,
-            plmn_support_mnc=self._config_plmn_support_mnc,
-            plmn_support_tac=self._config_plmn_support_tac,
-            sd_0=self._config_sd_0,
-            sd_1=self._config_sd_1,
-            sd_2=self._config_sd_2,
-            sst_0=self._config_sst_0,
-            sst_1=self._config_sst_1,
-            sst_2=self._config_sst_2,
+            guami_mcc=self._config_guami_mcc,
+            guami_mnc=self._config_guami_mnc,
+            guami_region_id=self._config_guami_region_id,
+            guami_amf_set_id=self._config_guami_amf_set_id,
+            served_guami_0_mcc=self._config_served_guami_0_mcc,
+            served_guami_0_mnc=self._config_served_guami_0_mnc,
+            served_guami_0_region_id=self._config_served_guami_0_region_id,
+            served_guami_0_amf_set_id=self._config_served_guami_0_amf_set_id,
+            served_guami_1_mcc=self._config_served_guami_1_mcc,
+            served_guami_1_mnc=self._config_served_guami_1_mnc,
+            served_guami_1_region_id=self._config_served_guami_1_region_id,
+            served_guami_1_amf_set_id=self._config_served_guami_1_amf_set_id,
+            plmn_0_support_mcc=self._config_plmn_0_support_mcc,
+            plmn_0_support_mnc=self._config_plmn_0_support_mnc,
+            plmn_0_support_tac=self._config_plmn_0_support_tac,
+            plmn_0_slice_0_sd=self._config_plmn_0_slice_0_sd,
+            plmn_0_slice_1_sd=self._config_plmn_0_slice_1_sd,
+            plmn_0_slice_2_sd=self._config_plmn_0_slice_2_sd,
+            plmn_0_slice_0_sst=self._config_plmn_0_slice_0_sst,
+            plmn_0_slice_1_sst=self._config_plmn_0_slice_1_sst,
+            plmn_0_slice_2_sst=self._config_plmn_0_slice_2_sst,
             ngap_amf_interface_name=self._config_ngap_amf_interface_name,
             ngap_amf_interface_port=self._config_ngap_amf_interface_port,
             n11_amf_interface_name=self._config_n11_amf_interface_name,
             n11_amf_interface_port=self._config_n11_amf_interface_port,
             n11_amf_api_version=self._config_n11_amf_api_version,
             n11_amf_interface_http2_port=self._config_n11_amf_interface_http2_port,
-            smf_instance_id_0=self._config_smf_instance_id_0,
-            smf_ipv4_address_0=self._config_smf_ipv4_address_0,
-            smf_port_0=self._config_smf_port_0,
-            smf_http2_port_0=self._config_smf_http2_port_0,
-            smf_api_version_0=self._config_smf_api_version_0,
-            smf_fqdn_0=self._config_smf_fqdn_0,
-            smf_instance_id_1=self._config_smf_instance_id_1,
-            smf_ipv4_address_1=self._config_smf_ipv4_address_1,
-            smf_port_1=self._config_smf_port_1,
-            smf_http2_port_1=self._config_smf_http2_port_1,
-            smf_api_version_1=self._config_smf_api_version_1,
-            smf_fqdn_1=self._config_smf_fqdn_1,
+            smf_0_instance_id=self._config_smf_0_instance_id,
+            smf_0_ipv4_address=self._config_smf_0_ipv4_address,
+            smf_0_port=self._config_smf_0_port,
+            smf_0_http2_port=self._config_smf_0_http2_port,
+            smf_0_api_version=self._config_smf_0_api_version,
+            smf_0_fqdn=self._config_smf_0_fqdn,
+            smf_1_instance_id=self._config_smf_1_instance_id,
+            smf_1_ipv4_address=self._config_smf_1_ipv4_address,
+            smf_1_port=self._config_smf_1_port,
+            smf_1_http2_port=self._config_smf_1_http2_port,
+            smf_1_api_version=self._config_smf_1_api_version,
+            smf_1_fqdn=self._config_smf_1_fqdn,
             nrf_ipv4_address=self.nrf_requires.nrf_ipv4_address,
             nrf_port=self.nrf_requires.nrf_port,
             nrf_api_version=self.nrf_requires.nrf_api_version,
@@ -331,88 +331,88 @@ class Oai5GAMFOperatorCharm(CharmBase):
         return "/var/run"
 
     @property
-    def _config_mcc(self) -> str:
-        return self.model.config["mcc"]
+    def _config_guami_mcc(self) -> str:
+        return self.model.config["guami-mcc"]
 
     @property
-    def _config_mnc(self) -> str:
-        return self.model.config["mnc"]
+    def _config_guami_mnc(self) -> str:
+        return self.model.config["guami-mnc"]
 
     @property
-    def _config_region_id(self) -> str:
-        return self.model.config["region_id"]
+    def _config_guami_region_id(self) -> str:
+        return self.model.config["guami-region-id"]
 
     @property
-    def _config_amf_set_id(self) -> str:
-        return self.model.config["amf_set_id"]
+    def _config_guami_amf_set_id(self) -> str:
+        return self.model.config["guami-amf-set-id"]
 
     @property
-    def _config_served_guami_mcc_0(self) -> str:
-        return self.model.config["served_guami_mcc_0"]
+    def _config_served_guami_0_mcc(self) -> str:
+        return self.model.config["served-guami-0-mcc"]
 
     @property
-    def _config_served_guami_mnc_0(self) -> str:
-        return self.model.config["served_guami_mnc_0"]
+    def _config_served_guami_0_mnc(self) -> str:
+        return self.model.config["served-guami-0-mnc"]
 
     @property
-    def _config_served_guami_region_id_0(self) -> str:
-        return self.model.config["served_guami_region_id_0"]
+    def _config_served_guami_0_region_id(self) -> str:
+        return self.model.config["served-guami-0-region-id"]
 
     @property
-    def _config_served_guami_amf_set_id_0(self) -> str:
-        return self.model.config["served_guami_amf_set_id_0"]
+    def _config_served_guami_0_amf_set_id(self) -> str:
+        return self.model.config["served-guami-0-amf-set-id"]
 
     @property
-    def _config_served_guami_mcc_1(self) -> str:
-        return self.model.config["served_guami_mcc_1"]
+    def _config_served_guami_1_mcc(self) -> str:
+        return self.model.config["served-guami-1-mcc"]
 
     @property
-    def _config_served_guami_mnc_1(self) -> str:
-        return self.model.config["served_guami_mnc_1"]
+    def _config_served_guami_1_mnc(self) -> str:
+        return self.model.config["served-guami-1-mnc"]
 
     @property
-    def _config_served_guami_region_id_1(self) -> str:
-        return self.model.config["served_guami_region_id_1"]
+    def _config_served_guami_1_region_id(self) -> str:
+        return self.model.config["served-guami-1-region-id"]
 
     @property
-    def _config_served_guami_amf_set_id_1(self) -> str:
-        return self.model.config["served_guami_amf_set_id_1"]
+    def _config_served_guami_1_amf_set_id(self) -> str:
+        return self.model.config["served-guami-1-amf-set-id"]
 
     @property
-    def _config_plmn_support_mcc(self) -> str:
-        return self.model.config["plmn_support_mcc"]
+    def _config_plmn_0_support_mcc(self) -> str:
+        return self.model.config["plmn-0-support-mcc"]
 
     @property
-    def _config_plmn_support_mnc(self) -> str:
-        return self.model.config["plmn_support_mnc"]
+    def _config_plmn_0_support_mnc(self) -> str:
+        return self.model.config["plmn-0-support-mnc"]
 
     @property
-    def _config_plmn_support_tac(self) -> str:
-        return self.model.config["plmn_support_tac"]
+    def _config_plmn_0_support_tac(self) -> str:
+        return self.model.config["plmn-0-support-tac"]
 
     @property
-    def _config_sd_0(self) -> str:
-        return self.model.config["sd_0"]
+    def _config_plmn_0_slice_0_sd(self) -> str:
+        return self.model.config["plmn-0-slice-0-sd"]
 
     @property
-    def _config_sst_0(self) -> str:
-        return self.model.config["sst_0"]
+    def _config_plmn_0_slice_0_sst(self) -> str:
+        return self.model.config["plmn-0-slice-0-sst"]
 
     @property
-    def _config_sd_1(self) -> str:
-        return self.model.config["sd_1"]
+    def _config_plmn_0_slice_1_sd(self) -> str:
+        return self.model.config["plmn-0-slice-1-sd"]
 
     @property
-    def _config_sst_1(self) -> str:
-        return self.model.config["sst_1"]
+    def _config_plmn_0_slice_1_sst(self) -> str:
+        return self.model.config["plmn-0-slice-1-sst"]
 
     @property
-    def _config_sd_2(self) -> str:
-        return self.model.config["sd_2"]
+    def _config_plmn_0_slice_2_sd(self) -> str:
+        return self.model.config["plmn-0-slice-2-sd"]
 
     @property
-    def _config_sst_2(self) -> str:
-        return self.model.config["sst_2"]
+    def _config_plmn_0_slice_2_sst(self) -> str:
+        return self.model.config["plmn-0-slice-2-sst"]
 
     @property
     def _config_amf_name(self) -> str:
@@ -432,11 +432,11 @@ class Oai5GAMFOperatorCharm(CharmBase):
 
     @property
     def _config_n11_amf_interface_name(self) -> str:
-        return self.model.config["amfInterfaceNameForN11"]
+        return "eth0"
 
     @property
     def _config_ngap_amf_interface_name(self) -> str:
-        return self.model.config["amfInterfaceNameForNGAP"]
+        return "eth0"
 
     @property
     def _config_ngap_amf_interface_port(self) -> str:
@@ -455,51 +455,51 @@ class Oai5GAMFOperatorCharm(CharmBase):
         return "9090"
 
     @property
-    def _config_smf_instance_id_0(self) -> str:
+    def _config_smf_0_instance_id(self) -> str:
         return "1"
 
     @property
-    def _config_smf_ipv4_address_0(self) -> str:
+    def _config_smf_0_ipv4_address(self) -> str:
         return "0.0.0.0"
 
     @property
-    def _config_smf_port_0(self) -> str:
+    def _config_smf_0_port(self) -> str:
         return "80"
 
     @property
-    def _config_smf_http2_port_0(self) -> str:
+    def _config_smf_0_http2_port(self) -> str:
         return "8080"
 
     @property
-    def _config_smf_api_version_0(self) -> str:
+    def _config_smf_0_api_version(self) -> str:
         return "v1"
 
     @property
-    def _config_smf_fqdn_0(self) -> str:
+    def _config_smf_0_fqdn(self) -> str:
         return "oai-smf-svc"
 
     @property
-    def _config_smf_instance_id_1(self) -> str:
+    def _config_smf_1_instance_id(self) -> str:
         return "2"
 
     @property
-    def _config_smf_ipv4_address_1(self) -> str:
+    def _config_smf_1_ipv4_address(self) -> str:
         return "0.0.0.0"
 
     @property
-    def _config_smf_port_1(self) -> str:
+    def _config_smf_1_port(self) -> str:
         return "80"
 
     @property
-    def _config_smf_http2_port_1(self) -> str:
+    def _config_smf_1_http2_port(self) -> str:
         return "8080"
 
     @property
-    def _config_smf_api_version_1(self) -> str:
+    def _config_smf_1_api_version(self) -> str:
         return "v1"
 
     @property
-    def _config_smf_fqdn_1(self) -> str:
+    def _config_smf_1_fqdn(self) -> str:
         return "localhost"
 
     @property
